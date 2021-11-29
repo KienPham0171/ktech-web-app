@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="home1::head(title ='Product Management')">
+</head>
+<body>
+    <div th:replace="home1::body_header"></div>
+
+    <div class="admin_control">
+        <div th:fragment="menu" class = "inline_block menu">
+            <div class="tit">
+                <h5 style="margin-left:40px;">
+                    <i class="fas fa-user-shield"></i>
+                    Admin DashBoard</h5>
+            </div>
+            <hr>
+            <div style="margin-left:40px;">
+                <a th:href="@{/admin/users}">
+
+                    <h6 class="submenu">
+                        <i class="fas fa-users"></i>
+                        User Management</h6> </a>
+                <a th:href="@{/admin/products}">
+
+                    <h6 class="submenu">
+                        <i class="fab fa-product-hunt"></i>
+                        Product Management</h6> </a>
+                <a th:href="@{/admin/categories}">
+
+                    <h6 class="submenu">
+                        <i class="fas fa-table"></i>
+                        Category Management</h6> </a>
+                <a th:href="@{/admin/orders}">
+
+                    <h6 class="submenu">
+                        <i class="fas fa-file-invoice"></i>
+                        Order Management</h6> </a>
+                <a th:href="@{/admin/feedbacks}">
+
+                    <h6 class="submenu">
+                        <i class="far fa-comment-alt"></i>
+                        Feedback Management</h6> </a>
+
+            </div>
+        </div>
+        <!-- end menu -->
+        <div class = 'inline_block display'>
+            <div class= "tit">
+                <h5 style="text-align: center;">Product Management</h5>
+            </div>
+            <hr>
+<!--            contents-->
+            <div>
+
+                <a th:href="@{/newProduct}">
+                <button class="btn btn-danger">
+                    <i class="fas fa-plus"></i>
+                    ADD PRODUCT
+                </button>
+                </a>
+                <hr>
+
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Book Name</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Short Description</th>
+                        <th scope="col">Price($)</th>
+                        <th scope="col">Category</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="product : ${products}">
+
+                    <tr>
+                        <th scope="row" >
+                            <img style="width:60px;height:80px" th:src="@{${product.image}}" alt="">
+
+                        </th>
+                        <td th:text="${product.productName}"></td>
+                        <td th:text="${product.author}"></td>
+                        <td th:text="${product.description}"></td>
+                        <td style="color:red;" th:text="${product.price}"></td>
+                        <td th:text="${product.categoryId.name}"></td>
+                        <td >
+                            <button class="btn btn-success">
+                                <i class="far fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-danger">
+                                <i class="far fa-trash-alt"></i>
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+
+
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <div th:replace="home1::body_footer"></div>
+
+</body>
+</html>

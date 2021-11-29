@@ -1,0 +1,259 @@
+._inline{
+    display: inline-block;
+    margin-left: 20px;
+
+}
+#searchicon{
+    font-size: 20px;
+    position: absolute;
+    top: 5px;
+    right: 8px;
+}
+
+#_searchinput {
+    width: 300px;
+    border: 1px solid;
+    border-radius: 20px;
+}
+#_absolute{
+    position: relative;
+    margin-left: 20%;
+}
+/* nav */
+._padding{
+    padding: 20px;
+    background-color: #573ba3;
+    position: relative;
+}
+#customNav {
+    background-color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: block;
+    transition: top 0.3s;
+    z-index: 20;
+}
+
+#top20px {
+    margin-top: 100px;
+}
+
+._addtocart {
+    border-radius: 35px;
+    position: absolute;
+    left: 50%;
+    width: 175px;
+    margin-left: -82px;
+    height: 40px;
+}
+.colorwhite{
+    color:white;
+    font-size: 20px;
+}
+._padding5px{
+    margin-left: 5px;
+}
+
+._marginleft5px {
+    margin-left: 5%;
+}
+
+.colorwhite._padding5px._marginleft5px a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.colorwhite._padding5px._marginleft5px a:hover {
+    color: #ff9800;
+}
+
+._padding5px:hover a {
+    color: #ff9800;
+}
+.absolute_right{
+    position: absolute;
+    right: 70px;
+}
+.absolute_right100px{
+    position: absolute;
+    right: 140px;
+}
+._bigger{
+    font-size: 25px;
+}
+._item{
+    position: relative;
+    /* padding: 0%; */
+    margin: auto;
+    /* border: 1px solid red; */
+    /* margin-left: -1%; */
+}
+
+.fixed-image{
+    position: absolute;
+    /* border: 1px solid; */
+    width: 180px;
+    height: 240px;
+    left: 50%;
+    margin-left: -90px;
+    top: 5px;
+    background-color: #e1e1e3;
+    border-radius: 4px;
+}
+
+.max-image {
+    border: 1px solid;
+    width: 165px;
+    height: 220px;
+    left: 50%;
+    position: absolute;
+    margin-left: -82.5px;
+    top: 10px;
+    border-radius: 3px;
+}
+
+._content {
+    /* position: absolute; */
+    margin-top: 230px;
+    height: 195px;
+}
+
+.price {
+    color: red;
+}
+.footer{
+    background-color: #573ba3;
+    height:235px;
+}
+.footer-child{
+    width: 33.3%;
+    /* background-color: black; */
+    padding-left:70px;
+    padding-top: 20px;
+    color: white;
+}
+.footer-child.child2{
+    text-align: center;
+}
+.footer-child.child2 a{
+    text-decoration: none;
+    color: white;
+}
+.footer-child.child2 a:hover{
+    color: #ff9800;
+}
+#_result_Search{
+    display:none;
+    background-color:white;
+    color:black;
+    position:absolute;
+    width: 150%;
+    max-height: 400px;
+    margin-top: 5px;
+    overflow-y: scroll;
+    margin-left: -70%;
+    left: 50%;
+    padding: 15px;
+    border: 1px solid;
+}
+input::-webkit-input-placeholder {
+    font-size: 13px;
+    line-height: 3;
+    padding:40%;
+
+}
+.loading{
+    background: #c1c1c1;
+    min-height:30px;
+    position:relative;
+    overflow:hidden;
+}
+
+.loading.content{
+    min-height: 240px;
+}
+.cat_loading{
+    background: #c1c1c1;
+    min-height:15%;
+    position:relative;
+    overflow:hidden;
+    border-radius: 10px;
+}
+
+.books_inside.cat_loading {
+    min-height: 75%;
+}
+.loading::before,.cat_loading::before{
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background:linear-gradient(to right,transparent,#e3e3e3,transparent);
+    transform: translateX(-100%);
+    animation: loading 1s infinite;
+}
+@keyframes loading{
+    100%{
+        transform: translateX(100%);
+    }
+}
+#shortItem{
+    height: 90px;
+
+    position: relative;
+}
+.shortItemChild{
+    display: inline-block;
+
+}
+._st1{
+    width:30%;
+    height: 100%;
+    overflow: hidden;
+}
+._st2{
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    left: 31%;
+    padding: 10px;
+}
+
+._st3{width: 18%;height:100%;position: absolute;right: 0px; padding: 10px}
+.smallProduct{
+    border: 1px solid;
+    width: 60px;
+    max-height: 80px;
+    margin-left: 30px;
+}
+.content a {
+    text-decoration: none;
+    font-size: 20px;
+    color: black;
+}
+#_11px{
+    font-size: 11px;
+}
+.category_item{
+    width: 100%;
+    height: 400px;
+    padding: 20px;
+
+}
+
+.books_inside {
+
+    height: 75%;
+    padding: 30px;
+    overflow-x: scroll;
+}
+._onebookItem{
+    width: 150px;
+    height: 200px;
+    background-color: #e1e1e3;
+    border-radius: 5px;
+    display: inline-block;
+}

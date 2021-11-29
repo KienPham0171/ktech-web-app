@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="baseLayout::head(title ='Verification')">
+
+</head>
+<body>
+<div th:replace="baseLayout::body_header"></div>
+<div class="container">
+    <br>
+    <h3>Your account is not active now,</h3>
+    <br>
+    <h4 th:unless="${sent}">
+    <a th:href="@{/active?sendEmail=true}">Sending an email</a> to activate your account or <a th:href="@{/logout}">Logout</a>!
+    </h4>
+    <h4 th:if="${sent}">
+        A verification email has been sent! Please check and complete your registration! <a th:href="@{/logout}">Logout</a>!
+    </h4>
+    <div style="height:400px"></div>
+</div>
+
+<div  th:replace="baseLayout::footer"></div>
+</body>
+</html>
