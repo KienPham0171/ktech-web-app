@@ -1,10 +1,12 @@
 package com.kein.ktech.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kein.ktech.constant.AuthProvider;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -20,12 +22,6 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
     private AuthProvider authProvider;
-
-    /*@ManyToMany
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )*/
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -35,6 +31,33 @@ public class User implements Serializable {
 
     @Column(name = "verification_code")
     private  String verificationCode;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Invoice> invoices;
+
 
     public String getVerificationCode() {
         return verificationCode;
@@ -137,5 +160,13 @@ public class User implements Serializable {
 
     public void setAuthProvider(AuthProvider authProvider) {
         this.authProvider = authProvider;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }

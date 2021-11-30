@@ -1,0 +1,44 @@
+#logo{
+    height: 86px;
+    margin-top: -17px;
+}
+
+#_a {
+    height: 63px;
+    overflow: hidden;
+}
+.size{
+    font-size: 25px;
+    color:black;
+}
+
+/*#_search_input {
+    width: 500px;
+}
+
+#search_form {
+    padding-right: 50%;
+    margin-right: -250px;
+}*/
+#nav1{
+    overflow:hidden;
+}
+._userName{
+    color:red;
+}
+#footer {
+    /*position: fixed;*/
+    height: 120px;
+    background-color: red;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+}
+
+._smaller {
+    height: 70px;
+}
+._item{
+    display: inline-block;
+}

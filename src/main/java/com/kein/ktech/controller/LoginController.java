@@ -2,6 +2,7 @@ package com.kein.ktech.controller;
 
 import com.kein.ktech.domain.User;
 import com.kein.ktech.security.CustomUserDetails;
+import com.kein.ktech.service.CategoryService;
 import com.kein.ktech.service.UserService;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,13 @@ import java.io.UnsupportedEncodingException;
 public class LoginController {
     @Autowired
     UserService userService;
+    @Autowired
+    CategoryService catService;
+
     @GetMapping("/")
-    public String welcome()
+    public String welcome(Model model)
     {
-        System.out.println("hii");
+        model.addAttribute("cats",catService.getCategories());
         return "home1";
     }
     @GetMapping("/login")

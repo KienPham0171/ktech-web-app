@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="home1::head(title ='New Product')">
+</head>
+<body>
+<div th:replace="home1::body_header"></div>
+
+<div class="admin_control">
+    <div th:fragment="menu" class = "inline_block menu">
+        <div class="tit">
+            <h5 style="margin-left:40px;">
+                <i class="fas fa-user-shield"></i>
+                Admin DashBoard</h5>
+        </div>
+        <hr>
+        <div style="margin-left:40px;">
+            <a th:href="@{/admin/users}">
+
+                <h6 class="submenu">
+                    <i class="fas fa-users"></i>
+                    User Management</h6> </a>
+            <a th:href="@{/admin/products}">
+
+                <h6 class="submenu">
+                    <i class="fab fa-product-hunt"></i>
+                    Product Management</h6> </a>
+            <a th:href="@{/admin/categories}">
+
+                <h6 class="submenu">
+                    <i class="fas fa-table"></i>
+                    Category Management</h6> </a>
+            <a th:href="@{/admin/orders}">
+
+                <h6 class="submenu">
+                    <i class="fas fa-file-invoice"></i>
+                    Order Management</h6> </a>
+            <a th:href="@{/admin/feedbacks}">
+
+                <h6 class="submenu">
+                    <i class="far fa-comment-alt"></i>
+                    Feedback Management</h6> </a>
+
+        </div>
+    </div>
+    <!-- end menu -->
+
+    <div class = 'inline_block display'>
+        <div class= "tit">
+            <h5 style="text-align: center;">New Product</h5>
+
+        </div>
+        <hr>
+        <div>
+            <form action="#" th:action="@{/saveNewProduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+                <h5>Basic Information</h5>
+                <p>
+                    <label for="productName">Product Name: </label>
+                    <input type="text" th:field="${product.productName}" id="productName">
+                </p>
+                <p>
+                    <label for="description">Short Description: </label>
+                    <input id="description" type="text" th:field="${product.description}">
+                </p>
+                <p>
+                    <label for="descriptionDetails">Detailed Description: </label>
+                    <br>
+                    <textarea rows="4" cols="50" id="descriptionDetails" type="text" th:field="${product.productDetails.productInformation}">
+                    </textarea>
+                </p>
+                <p>
+                    <label for="price">Product Price: </label>
+                    <input id="price" type="text" th:field="${product.price}">
+                </p>
+                <p>
+                    <label for="image">Prime Image:</label>
+                    <input id="image" type="file" name="primeImage">
+                </p>
+                <p>
+                    <label for="author">Author:</label>
+                    <input id="author" type="text" th:field="${product.author}">
+                </p>
+                <p>
+                    <label for="category">Category:</label>
+                    <select name="cat" id="category" >
+                        <option th:each="cat: ${cats}" th:value="${cat.name}" th:text="${cat.name}"></option>
+
+                    </select>
+                </p>
+                <h5>Detailed Information</h5>
+                <h6>Selling Options
+                    <button class="btn btn-danger">
+                        <i class="fas fa-plus-circle"></i>
+<!--                        <input type="text" th:field="*{productDetails.optionProductDetails}">-->
+
+                    </button>
+                    <div th:each="opt : ${product.productDetails.optionProductDetails}" class="ingredient-row">
+
+                        Option Name:
+                        <input type="text"
+                               th:field="${product.productDetails.optionProductDetails[__${optStat.index}__].name}"/>
+
+                        Option Price:
+                        <input  type="text"
+                               th:field="${product.productDetails.optionProductDetails[__${optStat.index}__].priceOption}"/>
+                    </div>
+
+                </h6>
+                <h6>Small Images</h6>
+                <div th:each="img : ${product.productDetails.smallImagesProducts}" class="ingredient-row">
+                    Small Image:
+                    <input type="file"
+                           th:field="${product.productDetails.smallImagesProducts[__${imgStat.index}__].multipartFile}"/>
+
+                </div>
+
+                <input type="submit" value="Save New Product" class="btn btn-danger" />
+            </form>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+<div th:replace="home1::body_footer"></div>
+</body>
+</html>

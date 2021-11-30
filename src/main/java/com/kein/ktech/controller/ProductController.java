@@ -8,6 +8,7 @@ import com.kein.ktech.service.FileService;
 import com.kein.ktech.service.ProductService;
 import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -112,7 +114,8 @@ public class ProductController {
         if(product.isPresent())
         {
             System.err.println(product.get().getProductName());
-            model.addAttribute("productDetails",product.get());
+            model.addAttribute("product",product.get());
+
         }
         return "productDetails";
     }

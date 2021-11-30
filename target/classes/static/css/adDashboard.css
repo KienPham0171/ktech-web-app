@@ -1,0 +1,39 @@
+*{
+    box-sizing: border-box;
+}
+.admin_control{
+    min-height:900px;
+    min-width:100% ;
+    margin-top:100px
+}
+.inline_block{
+    /* display: inline-block; */
+    /* border: 1px solid; */
+    padding:20px;
+}
+.menu{
+    width:25%;
+    position: absolute;
+    left: 0px;
+
+}
+.tit{
+    height:50px
+}
+.display{
+    width:75%;
+    right: 0px;
+    position: absolute;
+}
+.submenu{
+    padding: 10px;
+}
+.menu a{
+    text-decoration:none;
+    color: black;
+}
+
+.menu a:hover {
+    text-decoration: none;
+    color: red;
+}

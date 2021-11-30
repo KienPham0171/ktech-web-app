@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "product")
@@ -27,6 +28,9 @@ public class Product {
     @JsonIgnore
     @OneToOne(mappedBy ="productId",cascade = CascadeType.ALL)
     private ProductDetails productDetails;
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<Comment> comments;
 
     @Override
     public String toString() {

@@ -1,2 +1,7 @@
-package com.kein.ktech.service;public interface InvoiceService {
+package com.kein.ktech.service;
+
+import com.kein.ktech.domain.Invoice;
+
+public interface InvoiceService {
+    void saveInvoice(Invoice invoice);
 }
