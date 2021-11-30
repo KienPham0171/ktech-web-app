@@ -23,8 +23,8 @@ public class JpaConfig {
         DriverManagerDataSource d = new DriverManagerDataSource();
         d.setDriverClassName("com.mysql.cj.jdbc.Driver");
         d.setUrl("jdbc:mysql://localhost:3306/learnJpa");
-        d.setUsername("root");
-        d.setPassword("Kien17101998");
+        d.setUsername("*****");
+        d.setPassword("*******");
         return d;
     }
     @Bean
