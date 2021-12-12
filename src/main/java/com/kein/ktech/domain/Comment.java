@@ -33,4 +33,9 @@ public class Comment {
     @Column(name = "create_date")
     private Date createdDate;
 
+    @Transient
+    private long userId;
+    @Transient
+    private long productId;
+
 }

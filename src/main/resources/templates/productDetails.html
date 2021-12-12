@@ -53,10 +53,10 @@
         </h3>
         <div>
             <!--<form action="">-->
-                <button id="addCartLine" class="btn btn-danger custom_b" type="submit">
-                    <i class="fas fa-shopping-bag"></i> Add To Cart
-                </button>
-<!--            </form>-->
+            <button id="addCartLine" class="btn btn-danger custom_b" type="submit">
+                <i class="fas fa-shopping-bag"></i> Add To Cart
+            </button>
+            <!--            </form>-->
         </div>
         <h3>Contents:</h3>
         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
@@ -115,48 +115,65 @@
             <i class="far fa-user"></i> <label for="comment" th:text="${objUser.fullName}"></label>
 
             <textarea style="width: 100%" name="content" id="comment" cols="30" rows="3"></textarea>
-            <input type="button" class="btn btn-success" value="Send Comment">
+            <input id="btn_send_comment" type="button" class="btn btn-success" value="Send Comment">
+            <input type="hidden" id="userId" th:value="${objUser.id}">
+            <input type="hidden" id="productId" th:value="${product.id}">
         </p>
-        <div th:if="${product.getComments() !=null }">
+        <div id="cmt_div" th:if="${product.getComments() !=null }">
 
 
-        <div th:each="comment: ${product.getComments()}">
-            <div th:if="${comment.fatherComment == null}">
+            <div th:each="comment: ${product.getComments()}">
+                <div th:if="${comment.fatherComment == null}">
 
-                <div class="dt_comments cmt_center" style="width: 20%;">
-                    <i style="color:darkslateblue;font-size: 30px" class="far fa-user"></i> <br>
-                    <span style="color:cadetblue" th:text="${comment.getUser().fullName}"></span>
-                </div>
-                <div  class="dt_comments cmt_content" style="width: 79%">
-                    <span th:text="${comment.content}"></span>
-                    <p th:id="${comment.id}" class="p_absolute"> <span style="color:#0082ca">Reply</span>-
-                        <span th:text="${comment.createdDate}"></span>
-                        <span style="color: red;" th:if="${objUser.id ==3}">Delete</span>
-                    </p>
-
-                </div>
-                <div style="width: 79%;margin-left: 21%" th:if="${comment.getListCommentsReply()!= null}">
-                    <div th:each="rcmt:${comment.getListCommentsReply()}">
-                        <div style="width:100%;position:relative">
-                            <div class="dt_comments cmt_center" style="width: 20%;">
-                                <i style="color:darkslateblue;font-size: 30px" class="far fa-user"></i> <br>
-                                <span style="color:cadetblue" th:text="${rcmt.getUser().fullName}"></span>
-                            </div>
-                            <div   class="dt_comments cmt_content" style="width: 79%;position:relative">
-                                <span th:text="${rcmt.content}"></span>
-                                <span class="pdrmc" th:if="${objUser.id ==3}">Delete</span>
-                            </div>
-                        </div>
+                    <div class="dt_comments cmt_center" style="width: 20%;">
+                        <i style="color:darkslateblue;font-size: 30px" class="far fa-user"></i> <br>
+                        <span style="color:cadetblue" th:text="${comment.getUser().fullName}"></span>
+                    </div>
+                    <div  class="dt_comments cmt_content" style="width: 79%">
+                        <span th:text="${comment.content}"></span>
+                        <p th:id="${comment.id}" class="p_absolute"> <span style="color:#0082ca">Reply</span>-
+                            <span th:text="${comment.createdDate}"></span>
+                            <span style="color: red;" th:if="${objUser.id ==3}">Delete</span>
+                        </p>
 
                     </div>
+                    <div style="width: 79%;margin-left: 21%" th:if="${comment.getListCommentsReply()!= null}">
+                        <div style="display: none">
+                            <div style="width:100%;position:relative">
+                                <div class="dt_comments cmt_center" style="width: 20%;">
+                                    <i style="color:darkslateblue;font-size: 30px" class="far fa-user"></i> <br>
+                                    <span style="color:cadetblue" th:text="${objUser.fullName}"></span>
+                                </div>
+                                <div   class="dt_comments cmt_content" style="width: 79%;position:relative">
+                                    <textarea style="width: 100%" name="content" cols="30" rows="3"></textarea>
+                                    <input  type="button" class="btn btn-success" value="Send Comment">
+                                    <input type="hidden"  th:value="${objUser.id}">
+                                    <input type="hidden"  th:value="${product.id}">
+                                </div>
+                            </div>
+                        </div>
+                        <div th:each="rcmt:${comment.getListCommentsReply()}">
+                            <div style="width:100%;position:relative">
+                                <div class="dt_comments cmt_center" style="width: 20%;">
+                                    <i style="color:darkslateblue;font-size: 30px" class="far fa-user"></i> <br>
+                                    <span style="color:cadetblue" th:text="${rcmt.getUser().fullName}"></span>
+                                </div>
+                                <div   class="dt_comments cmt_content" style="width: 79%;position:relative">
+                                    <span th:text="${rcmt.content}"></span>
+                                    <span class="pdrmc" th:if="${objUser.id ==3}">Delete</span>
+                                </div>
+                            </div>
 
+                        </div>
+
+
+                    </div>
                 </div>
+
+                <!--            Response-->
+
+
             </div>
-
-<!--            Response-->
-
-
-        </div>
 
         </div>
     </div>
@@ -169,7 +186,13 @@
 
     <!-- related Books -->
     <div id="related_book">
-
+        <div th:each="relatedProduct:${relatedProducts}">
+            <a href="productDetails/1">
+                <div class="_onebookItem">
+                    <img style="width:100%;height:100%;" th:src="${relatedProduct.getImage()}">
+                </div>
+            </a>
+        </div>
     </div>
     <br>
     <br>

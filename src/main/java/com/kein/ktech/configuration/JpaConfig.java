@@ -20,11 +20,21 @@ public class JpaConfig {
 
     @Bean public DataSource dataSource()
     {
+//        DriverManagerDataSource d = new DriverManagerDataSource();
+//        d.setDriverClassName("com.mysql.cj.jdbc.Driver");
+//        d.setUrl("jdbc:mysql://localhost:3306/learnJpa");
+//        d.setUsername("*****");
+//        d.setPassword("*******");
+//        return d;
         DriverManagerDataSource d = new DriverManagerDataSource();
         d.setDriverClassName("com.mysql.cj.jdbc.Driver");
         d.setUrl("jdbc:mysql://localhost:3306/learnJpa");
-        d.setUsername("*****");
-        d.setPassword("*******");
+        d.setUsername("root");
+        d.setPassword("Kien17101998");
+//
+//        d.setUrl("jdbc:mysql://sql6.freesqldatabase.com:3306/sql6455789");
+//        d.setUsername("sql6455789");
+//        d.setPassword("tTlWf9Xi3N");
         return d;
     }
     @Bean
