@@ -36,4 +36,9 @@ public class ProductServiceImpl implements ProductService {
     public void saveProduct(Product product) {
         repository.saveProduct(product);
     }
+
+    @Override
+    public long countProducts() {
+        return this.repository.countProducts();
+    }
 }

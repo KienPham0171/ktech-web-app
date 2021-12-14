@@ -7,6 +7,7 @@ import org.springframework.data.repository.cdi.Eager;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "small_Images_Product")

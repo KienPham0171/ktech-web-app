@@ -47,4 +47,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         TypedQuery<Product> result = entityManager.createQuery(query,Product.class).setParameter(1,id);
         return Optional.ofNullable(result.getSingleResult());
     }
+
+    @Override
+    public long countProducts() {
+        String query = "select count(p.id) from Product p";
+        return Long.parseLong(entityManager.createQuery(query).getSingleResult().toString());
+    }
 }
