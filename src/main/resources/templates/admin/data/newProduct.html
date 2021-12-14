@@ -56,10 +56,12 @@
                 <p>
                     <label for="productName">Product Name: </label>
                     <input type="text" th:field="${product.productName}" id="productName">
+                    <span th:if="${#fields.hasErrors('productName')}" class="alert alert-danger" th:errors="${product.productName}" />
                 </p>
                 <p>
                     <label for="description">Short Description: </label>
                     <input id="description" type="text" th:field="${product.description}">
+                    <span th:if="${#fields.hasErrors('description')}" class="alert alert-danger" th:errors="${product.description}" />
                 </p>
                 <p>
                     <label for="descriptionDetails">Detailed Description: </label>
@@ -70,14 +72,17 @@
                 <p>
                     <label for="price">Product Price: </label>
                     <input id="price" type="text" th:field="${product.price}">
+                <span th:if="${#fields.hasErrors('price')}" class="alert alert-danger" th:errors="${product.price}" />
                 </p>
                 <p>
                     <label for="image">Prime Image:</label>
                     <input id="image" type="file" name="primeImage">
+                <p th:if="${#fields.hasErrors('image')}" th:errorclass="error" th:errors="${product.image}" />
                 </p>
                 <p>
                     <label for="author">Author:</label>
                     <input id="author" type="text" th:field="${product.author}">
+                <span th:if="${#fields.hasErrors('author')}" class="alert alert-danger"  th:errors="${product.author}" />
                 </p>
                 <p>
                     <label for="category">Category:</label>
@@ -102,6 +107,10 @@
                         Option Price:
                         <input  type="text"
                                th:field="${product.productDetails.optionProductDetails[__${optStat.index}__].priceOption}"/>
+                        <p th:if="${#fields.hasErrors()}"  th:errors="${product.author}" />
+<!--                        <p class="alert alert-danger"-->
+<!--                           th:if="${#fields.hasErrors(product.productDetails.optionProductDetails[__${optStat.index}__].priceOption)}"-->
+<!--                           th:errors="Price option is wrong"></p>-->
                     </div>
 
                 </h6>

@@ -3,6 +3,9 @@ package com.kein.ktech.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "option_product_details")
@@ -12,8 +15,12 @@ public class OptionProductDetails
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotNull(message = "not null")
     private String name;
     @Column(name = "price_option")
+    @NotNull(message = "not null")
+    @Max(value = 10000, message = "max 10.000$")
+    @Min(value = 1,message = "1$")
     private double priceOption;
 
     @ManyToOne(fetch = FetchType.LAZY)

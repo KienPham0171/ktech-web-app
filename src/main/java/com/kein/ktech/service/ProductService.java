@@ -10,4 +10,5 @@ public interface ProductService {
     List<Product> searchProductsByName(String name);
     Optional<Product> findProductById(long id);
     void saveProduct(Product product);
+    long countProducts();
 }

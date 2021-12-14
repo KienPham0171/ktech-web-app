@@ -13,4 +13,5 @@ public interface ProductRepository {
     void saveProduct(Product product);
 
     Optional<Product> findProductById(long id);
+    long countProducts();
 }
