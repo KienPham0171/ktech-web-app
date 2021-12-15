@@ -14,4 +14,6 @@ public interface ProductRepository {
 
     Optional<Product> findProductById(long id);
     long countProducts();
+
+    List<Product> getProductsByPageAndSize(int page, int size);
 }

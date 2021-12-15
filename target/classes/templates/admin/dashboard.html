@@ -51,8 +51,24 @@
 
             </div>
             <hr>
-            <div>
-
+            <div class="center">
+                <div style="width: 50%;">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <table class="table">
+                    <tr>
+                        <th>Category Id</th>
+                        <th>Category Name</th>
+                        <th>Quantity</th>
+                    </tr>
+                    <th:block th:each="c : ${catStats}">
+                        <tr>
+                            <td  th:text="${c[0]}"></td>
+                            <td class="catLabel" th:text="${c[1]}"></td>
+                            <td class="catData" th:text="${c[2]}"></td>
+                        </tr>
+                    </th:block>
+                </table>
             </div>
         </div>
 

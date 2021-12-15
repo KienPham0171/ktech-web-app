@@ -23,6 +23,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getProductsByPageAndSize(int page, int size) {
+        return this.repository.getProductsByPageAndSize(page, size);
+    }
+
+    @Override
     public List<Product> searchProductsByName(String name) {
         return repository.searchProductsByName(name);
     }

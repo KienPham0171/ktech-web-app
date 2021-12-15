@@ -3,6 +3,7 @@ package com.kein.ktech.controller;
 import com.kein.ktech.domain.Product;
 import com.kein.ktech.service.CategoryService;
 import com.kein.ktech.service.ProductService;
+import com.kein.ktech.service.StatsService;
 import com.kein.ktech.service.UserService;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,28 +21,35 @@ public class AdminController {
     ProductService productService;
     UserService userService;
     CategoryService catService;
+    StatsService statsService;
 
     @Autowired
-    public AdminController(ProductService productService, UserService userService, CategoryService catService) {
+    public AdminController(ProductService productService, UserService userService,
+                           CategoryService catService,StatsService statsService) {
         this.productService = productService;
         this.userService = userService;
         this.catService = catService;
+        this.statsService = statsService;
     }
 
     @GetMapping("/dashboard")
-    public String dashboard()
+    public String dashboard(Model model)
     {
+        List<Object []> catStats =statsService.catStats();
+        model.addAttribute("catStats", catStats);
         return "admin/dashboard";
     }
 
     @GetMapping("/products")
-    public String products(@RequestParam(name = "page",defaultValue = "1") int page, Model model)
+    public String products(@RequestParam(name = "page",defaultValue = "1") int page,
+                           @RequestParam(name = "size",defaultValue = "4") int size,
+                           Model model)
     {
 
-        List<Product> products = productService.getProducts();
+        List<Product> products = productService.getProductsByPageAndSize(page,size);
         System.out.println(products.size());
         model.addAttribute("products",products);
-        model.addAttribute("pages",2);
+        model.addAttribute("pages",Math.ceil(productService.countProducts()/size));
         return "admin/products";
     }
     @GetMapping("/users")

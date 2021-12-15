@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface ProductService {
     List<Product> getProducts();
+    List<Product> getProductsByPageAndSize(int page, int size);
     List<Product> searchProductsByName(String name);
     Optional<Product> findProductById(long id);
     void saveProduct(Product product);
