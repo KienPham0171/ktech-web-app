@@ -53,4 +53,12 @@ public class ProductRepositoryImpl implements ProductRepository {
         String query = "select count(p.id) from Product p";
         return Long.parseLong(entityManager.createQuery(query).getSingleResult().toString());
     }
+
+    @Override
+    public List<Product> getProductsByPageAndSize(int page, int size) {
+        String query = "select p from Product p ";
+        TypedQuery<Product> q = entityManager.createQuery(query,Product.class)
+                .setMaxResults(size).setFirstResult((page -1)*size);
+        return q.getResultList();
+    }
 }
