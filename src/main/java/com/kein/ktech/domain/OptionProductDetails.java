@@ -18,9 +18,6 @@ public class OptionProductDetails
     @NotNull(message = "not null")
     private String name;
     @Column(name = "price_option")
-    @NotNull(message = "not null")
-    @Max(value = 10000, message = "max 10.000$")
-    @Min(value = 1,message = "1$")
     private double priceOption;
 
     @ManyToOne(fetch = FetchType.LAZY)

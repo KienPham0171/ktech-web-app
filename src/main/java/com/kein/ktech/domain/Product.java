@@ -1,7 +1,10 @@
 package com.kein.ktech.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kein.ktech.validator.FileInputValidator;
+import com.kein.ktech.validator.OptionPrice;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -34,12 +37,20 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category categoryId;
+
+
+    @FileInputValidator
     @JsonIgnore
     @OneToOne(mappedBy ="productId",cascade = CascadeType.ALL)
     private ProductDetails productDetails;
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<Comment> comments;
+
+    @Transient
+    @NotNull(message ="Can not be null!")
+    @FileInputValidator(message = "File input can not be null")
+    private MultipartFile file ;
 
     @Override
     public String toString() {

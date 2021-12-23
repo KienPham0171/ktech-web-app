@@ -6,13 +6,18 @@ import com.kein.ktech.domain.*;
 import com.kein.ktech.service.CategoryService;
 import com.kein.ktech.service.FileService;
 import com.kein.ktech.service.ProductService;
+import com.kein.ktech.validator.ProductValidator;
 import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +38,8 @@ public class ProductController {
     private CategoryService catService;
     private ProductService productService;
     private FileService fileService;
+    @Autowired
+    private ProductValidator productValidator;
 
     @Autowired
     public ProductController(CategoryService catService,
@@ -60,22 +67,37 @@ public class ProductController {
         attr.put("cats",categories);
         model.addAllAttributes(attr);
     }
+//    @InitBinder
+//    public void initBinder(WebDataBinder binder){
+//        binder.setValidator(productValidator);
+//    }
 
     @GetMapping("/newProduct")
     public String newProduct(Model model)
     {
-
         return "admin/data/newProduct";
     }
 
     @PostMapping("/saveNewProduct")
     public String saveNewProduct( @Valid @ModelAttribute(name = "product") Product product, BindingResult result,
-                                 @RequestParam("primeImage") MultipartFile multipartFile,
+                              //  @RequestParam("primeImage") MultipartFile multipartFile,
                                  @RequestParam("cat") String cat,Model model) throws IOException {
+
         if(result.hasErrors()){
+
+            if(product.getFile().getSize() == 0){
+                System.out.println("file is null");
+                ObjectError error = new ObjectError("image","Cannot be null");
+                result.addError(error);
+
+            }else{
+                System.out.println(product.getFile().getSize());
+            }
+            //if(multipartFile == null)product.setImage("");
             System.err.println("loi loi loi");
             return "admin/data/newProduct";
         }else{
+            MultipartFile multipartFile =product.getFile();
             if(multipartFile!= null)
             {
                 String url =  fileService.saveMultipartFile(multipartFile);
@@ -83,6 +105,7 @@ public class ProductController {
                     product.setImage(url);
                 } else {
                     System.err.print("encounter error!!");
+                    product.setImage("");
                 }
             }
 

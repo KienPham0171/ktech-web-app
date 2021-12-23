@@ -39,13 +39,25 @@
         <div>
             <p>Selling Option:</p>
             <th:block th:each="opt : ${product.getProductDetails().optionProductDetails}">
-                <div th:id="'st'+${opt.id}" class="optionSale" style="display:inline-block">
-                    <p th:text="${opt.name}"></p>
-                    $<span id="_price" th:text="${opt.priceOption}"></span>
-                    <input type="hidden" th:value="${opt.name}">
-                    <input type="hidden" th:value="${opt.priceOption}">
-                    <input type="hidden" th:value="'st'+${opt.id}">
-                </div>
+
+                <th:block th:if="${opt.name.toLowerCase().compareTo('default') != 0}">
+                    <div th:id="'st'+${opt.id}" class="optionSale" style="display:inline-block">
+                        <p th:text="${opt.name}"></p>
+                        $<span id="_price" th:text="${opt.priceOption}"></span>
+                        <input type="hidden" th:value="${opt.name}">
+                        <input type="hidden" th:value="${opt.priceOption}">
+                        <input type="hidden" th:value="'st'+${opt.id}">
+                    </div>
+
+                </th:block>
+
+<!--                <div th:id="'st'+${opt.id}" class="optionSale" style="display:inline-block">-->
+<!--                    <p th:text="${opt.name}"></p>-->
+<!--                    $<span id="_price" th:text="${opt.priceOption}"></span>-->
+<!--                    <input type="hidden" th:value="${opt.name}">-->
+<!--                    <input type="hidden" th:value="${opt.priceOption}">-->
+<!--                    <input type="hidden" th:value="'st'+${opt.id}">-->
+<!--                </div>-->
             </th:block>
 
         </div>

@@ -76,8 +76,8 @@
                 </p>
                 <p>
                     <label for="image">Prime Image:</label>
-                    <input id="image" type="file" name="primeImage">
-                <p th:if="${#fields.hasErrors('image')}" th:errorclass="error" th:errors="${product.image}" />
+                    <input id="image" type="file" name="primeImage" th:field="${product.file}">
+                <span th:if="${#fields.hasErrors('file')}" class="alert alert-danger" th:errors="${product.file}"  />
                 </p>
                 <p>
                     <label for="author">Author:</label>
@@ -92,12 +92,7 @@
                     </select>
                 </p>
                 <h5>Detailed Information</h5>
-                <h6>Selling Options
-                    <button class="btn btn-danger">
-                        <i class="fas fa-plus-circle"></i>
-<!--                        <input type="text" th:field="*{productDetails.optionProductDetails}">-->
-
-                    </button>
+                <h6>Selling Options</h6>
                     <div th:each="opt : ${product.productDetails.optionProductDetails}" class="ingredient-row">
 
                         Option Name:
@@ -107,7 +102,7 @@
                         Option Price:
                         <input  type="text"
                                th:field="${product.productDetails.optionProductDetails[__${optStat.index}__].priceOption}"/>
-                        <p th:if="${#fields.hasErrors()}"  th:errors="${product.author}" />
+
 <!--                        <p class="alert alert-danger"-->
 <!--                           th:if="${#fields.hasErrors(product.productDetails.optionProductDetails[__${optStat.index}__].priceOption)}"-->
 <!--                           th:errors="Price option is wrong"></p>-->
@@ -115,6 +110,7 @@
 
                 </h6>
                 <h6>Small Images</h6>
+                <p th:if="${#fields.hasErrors('productDetails')}" class="alert alert-danger"  th:errors="${product.productDetails}" />
                 <div th:each="img : ${product.productDetails.smallImagesProducts}" class="ingredient-row">
                     Small Image:
                     <input type="file"

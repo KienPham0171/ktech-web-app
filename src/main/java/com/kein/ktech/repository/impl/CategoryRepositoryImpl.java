@@ -31,7 +31,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public Optional<Category> getCategoryByName(String name) {
         String query = "Select c from Category c where c.name = ?1";
         TypedQuery<Category> result =entityManager.createQuery(query,Category.class).setParameter(1,name);
-        return Optional.ofNullable(result.getSingleResult());
+        return result.getResultList().stream().findFirst();
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.kein.ktech.controller;
 
+import com.kein.ktech.constant.InvoiceStatus;
+import com.kein.ktech.domain.Invoice;
 import com.kein.ktech.domain.Product;
-import com.kein.ktech.service.CategoryService;
-import com.kein.ktech.service.ProductService;
-import com.kein.ktech.service.StatsService;
-import com.kein.ktech.service.UserService;
+import com.kein.ktech.service.*;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +21,8 @@ public class AdminController {
     UserService userService;
     CategoryService catService;
     StatsService statsService;
+    @Autowired
+    InvoiceService invoiceService;
 
     @Autowired
     public AdminController(ProductService productService, UserService userService,
@@ -65,6 +66,8 @@ public class AdminController {
     @GetMapping("/orders")
     public String orders(Model model)
     {
+        List<Invoice> notConfirmedList = invoiceService.getInvoicesByStatus(InvoiceStatus.NOT_CONFIRMED);
+        model.addAttribute("notConfirmedList",notConfirmedList);
         return "admin/orders";
     }
     @GetMapping("/feedbacks")
