@@ -72,22 +72,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     private Oauth2SuccessHandler oauth2SuccessHandler;
     @Autowired private LocalLoginSuccessHandler localLoginSuccessHandler;
 
-    @Bean
-    public JavaMailSender javaMailSender()
-    {
-        var mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-        mailSender.setUsername("kienpham.se.mailService@gmail.com");
-        mailSender.setPassword("kZ@phamse10");
 
-        Properties properties = new Properties();
-        properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.starttls.enable", "true");
-
-        mailSender.setJavaMailProperties(properties);
-        return mailSender;
-    }
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
