@@ -46,4 +46,14 @@ public class ProductServiceImpl implements ProductService {
     public long countProducts() {
         return this.repository.countProducts();
     }
+
+    @Override
+    public Product updateProduct(Product product) {
+        return this.repository.updateProduct(product);
+    }
+
+    @Override
+    public void deleteProductById(long id) {
+        this.repository.delProductById(id);
+    }
 }

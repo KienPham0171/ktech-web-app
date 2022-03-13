@@ -1,31 +1,24 @@
 package com.kein.ktech.controller;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.kein.ktech.domain.*;
+import com.kein.ktech.domain.dto.ProductDTO;
 import com.kein.ktech.service.CategoryService;
 import com.kein.ktech.service.FileService;
 import com.kein.ktech.service.ProductService;
-import org.cloudinary.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.SmartValidator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.io.FileOutputStream;
+
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -46,7 +39,8 @@ public class ProductController {
         List<OptionProductDetails> opts = new ArrayList<OptionProductDetails>(10);
         List<SmallImagesProduct> smallImages = new ArrayList<>();
         ProductDetails productDetails = new ProductDetails(opts,smallImages);
-        Product newProduct = new Product(productDetails);
+        ProductDTO newProduct = new ProductDTO(productDetails);
+        newProduct.setId(-1);
         List<Category> categories = catService.getCategories();
         Map<String, Object> attr = new HashMap<String, Object>();
         for (int i = 0; i < 3 ; i++){
@@ -67,15 +61,59 @@ public class ProductController {
 
         return "admin/data/newProduct";
     }
+    @GetMapping("/admin/editProduct/{id}")
+    public String editProduct(Model model,@PathVariable("id") String id){
+        Product product = null;
+        Optional<Product> p =productService.findProductById(Long.parseLong(id));
+        if(p.isPresent()) product = p.get();else{
+            return "admin/data/newProduct";
+        }
+
+        model.addAttribute("product",product);
+        return "admin/data/newProduct";
+    }
+
+    @PostMapping("/admin/updateProduct")
+    public Object updateProduct(@Validated(ProductDTO.CustomValid.class) @ModelAttribute(name="product") ProductDTO product,
+                                BindingResult result, Model model,
+                                @RequestParam("cat") String cat){
+
+        Product p = productService.findProductById(product.getId()).get();
+        if(result.hasErrors()){
+            System.err.println(result.getModel());
+
+            String bigImg = p.getImage();
+            List<String> sList = new ArrayList<>();
+            p.getProductDetails().getSmallImagesProducts().forEach(s -> sList.add(s.getImage()));
+
+            sList.add(0,bigImg);
+            model.addAttribute("listImg",sList);
+            return "admin/data/newProduct";
+        }
+
+        p.setProductName(product.getProductName());
+        p.setDescription(product.getDescription());
+        p.setPrice(product.getPrice());
+        p.setAuthor(product.getAuthor());
+        Optional<Category> t = catService.getCategoryByName(cat);
+        if(t.isPresent()) p.setCategoryId(t.get());
+        productService.updateProduct(p);
+        return new RedirectView("/admin/products");
+    }
 
     @PostMapping("/saveNewProduct")
-    public String saveNewProduct( @Valid @ModelAttribute(name = "product") Product product, BindingResult result,
-                                 @RequestParam("primeImage") MultipartFile multipartFile,
+    public String saveNewProduct( @Validated({ProductDTO.BaseInfo.class}) @ModelAttribute(name = "product") ProductDTO product, BindingResult result,
+                                 //@RequestParam("primeImage") MultipartFile multipartFile,
+                                  @RequestParam(name = "isUpdate",defaultValue = "false") boolean isUpdate,
                                  @RequestParam("cat") String cat,Model model) throws IOException {
         if(result.hasErrors()){
             System.err.println("loi loi loi");
+            System.err.println(result.getModel());
+            System.err.println("product.author: "+ product.getAuthor());
             return "admin/data/newProduct";
+
         }else{
+            MultipartFile multipartFile = product.getFile();
             if(multipartFile!= null)
             {
                 String url =  fileService.saveMultipartFile(multipartFile);
@@ -108,12 +146,14 @@ public class ProductController {
             product.getProductDetails().getSmallImagesProducts().forEach(smallImage->{
                 smallImage.setProductDetailsId(product.getProductDetails());
             });
-            product.getProductDetails().setProductId(product);
-            product.getProductDetails().getOptionProductDetails().forEach( optDetails ->{
-                optDetails.setProductDetailsId(product.getProductDetails());
+
+            Product realProduct = new Product(product);
+            realProduct.getProductDetails().setProductId(realProduct);
+            realProduct.getProductDetails().getOptionProductDetails().forEach( optDetails ->{
+                optDetails.setProductDetailsId(realProduct.getProductDetails());
             });
 
-            productService.saveProduct(product);
+            productService.saveProduct(realProduct);
             return "productDetails";
         }
 

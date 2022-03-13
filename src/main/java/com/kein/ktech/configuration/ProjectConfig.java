@@ -144,7 +144,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .mvcMatchers("/user/**").hasAuthority("user")
                 .mvcMatchers("/admin/**").hasAuthority("admin")
-                .mvcMatchers("/","/css/**","/images/**","/js/**","/api/**").permitAll()
+                .mvcMatchers("/","/css/**","/images/**","/js/**","/api/**","/register","new-user").permitAll()
                 .anyRequest().authenticated();
         http.csrf().disable();
 

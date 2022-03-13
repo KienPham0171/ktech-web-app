@@ -61,4 +61,15 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .setMaxResults(size).setFirstResult((page -1)*size);
         return q.getResultList();
     }
+
+    @Override
+    public Product updateProduct(Product product) {
+        return entityManager.merge(product);
+    }
+
+    @Override
+    public void delProductById(long id) {
+        Optional<Product> product = findProductById(id);
+        product.ifPresent(value -> entityManager.remove(value));
+    }
 }

@@ -1,5 +1,6 @@
 package com.kein.ktech.controller;
 
+import com.kein.ktech.domain.Role;
 import com.kein.ktech.domain.User;
 import com.kein.ktech.security.CustomOauth2User;
 import com.kein.ktech.security.CustomUserDetails;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 @Controller
 @ControllerAdvice
 public class HomeController {
@@ -26,6 +31,7 @@ public class HomeController {
         SecurityContext context = SecurityContextHolder.getContext();
         if(getPrincipal(context.getAuthentication())!=null ){
             String userName = getPrincipal(context.getAuthentication());
+            if(!userName.contains(" ")) return userName;
             return  userName.substring(userName.lastIndexOf(" ",userName.length()-1));
 
         }
@@ -36,6 +42,19 @@ public class HomeController {
         SecurityContext context = SecurityContextHolder.getContext();
         return getUser(context.getAuthentication());
     }
+    @ModelAttribute(name="isAdmin")
+    public boolean isAdmin(){
+        User user = getUser(SecurityContextHolder.getContext().getAuthentication());
+        if(user != null){
+            Collection<Role> roles =user.getRoles();
+            for(Role r : roles){
+                if(r.getRoleName().equalsIgnoreCase("admin")) return true;
+            }
+        }
+
+        return false;
+    }
+
 
     @GetMapping("/home")
     public String home(Authentication authentication, Model model)

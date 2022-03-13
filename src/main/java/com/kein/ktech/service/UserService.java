@@ -5,6 +5,7 @@ import com.kein.ktech.security.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     List<User> getUsers();
@@ -13,5 +14,8 @@ public interface UserService extends UserDetailsService {
     void createNewUser(User user);
     void sendEmailVerification(CustomUserDetails user);
 
+
     boolean enableUser(User user);
+
+    Optional<User> findUserByEmail(String email);
 }

@@ -16,4 +16,6 @@ public interface ProductRepository {
     long countProducts();
 
     List<Product> getProductsByPageAndSize(int page, int size);
+    Product updateProduct(Product product);
+    void delProductById(long id);
 }

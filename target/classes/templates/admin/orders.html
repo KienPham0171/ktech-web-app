@@ -3,62 +3,180 @@
 <head th:replace="home1::head(title ='Product Management')">
 </head>
 <body>
-    <div th:replace="home1::body_header"></div>
+<div th:replace="home1::body_header"></div>
 
-    <div class="admin_control">
-        <div th:fragment="menu" class = "inline_block menu">
-            <div class="tit">
-                <h5 style="margin-left:40px;">
-                    <i class="fas fa-user-shield"></i>
-                    Admin DashBoard</h5>
-            </div>
-            <hr>
-            <div style="margin-left:40px;">
-                <a th:href="@{/admin/users}">
+<div class="admin_control">
+    <div th:fragment="menu" class = "inline_block menu">
+        <div class="tit">
+            <h5 style="margin-left:40px;">
+                <i class="fas fa-user-shield"></i>
+                Admin DashBoard</h5>
+        </div>
+        <hr>
+        <div style="margin-left:40px;">
+            <a th:href="@{/admin/users}">
 
-                    <h6 class="submenu">
-                        <i class="fas fa-users"></i>
-                        User Management</h6> </a>
-                <a th:href="@{/admin/products}">
+                <h6 class="submenu">
+                    <i class="fas fa-users"></i>
+                    User Management</h6> </a>
+            <a th:href="@{/admin/products}">
 
-                    <h6 class="submenu">
-                        <i class="fab fa-product-hunt"></i>
-                        Product Management</h6> </a>
-                <a th:href="@{/admin/categories}">
+                <h6 class="submenu">
+                    <i class="fab fa-product-hunt"></i>
+                    Product Management</h6> </a>
+            <a th:href="@{/admin/categories}">
 
-                    <h6 class="submenu">
-                        <i class="fas fa-table"></i>
-                        Category Management</h6> </a>
-                <a th:href="@{/admin/orders}">
+                <h6 class="submenu">
+                    <i class="fas fa-table"></i>
+                    Category Management</h6> </a>
+            <a th:href="@{/admin/orders}">
 
-                    <h6 class="submenu">
-                        <i class="fas fa-file-invoice"></i>
-                        Order Management</h6> </a>
-                <a th:href="@{/admin/feedbacks}">
+                <h6 class="submenu">
+                    <i class="fas fa-file-invoice"></i>
+                    Order Management</h6> </a>
+            <a th:href="@{/admin/feedbacks}">
 
-                    <h6 class="submenu">
-                        <i class="far fa-comment-alt"></i>
-                        Feedback Management</h6> </a>
+                <h6 class="submenu">
+                    <i class="far fa-comment-alt"></i>
+                    Feedback Management</h6> </a>
 
+        </div>
+    </div>
+    <!-- end menu -->
+
+    <div class = 'inline_block display'>
+        <div class= "tit">
+            <h5 style="text-align: center;">Oder Management</h5>
+
+        </div>
+        <hr>
+
+        <div class="container mt-5">
+            <div class="row d-flex justify-content-center ">
+                <div class="col-md-6">
+
+                    <div class="input-box">
+                        <input type="text" class="form-control" placeholder="Order-Ref">  </div>
+                    <div style="display: none" class="list border-bottom"> <i class="fa fa-fire"></i>
+                        <div class="d-flex flex-column ml-3"> <span>Client communication policy</span> <small>#politics - may - @max</small> </div>
+                    </div>
+
+
+                </div>
             </div>
         </div>
-        <!-- end menu -->
+        <hr>
 
-        <div class = 'inline_block display'>
-            <div class= "tit">
-                <h5 style="text-align: center;">Oder Management</h5>
+        <div>
+            <h5>Not Confirmed</h5>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Order Ref</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="i : ${notConfirmedList}">
+                    <tr th:id="'invoice_'+${i.id}">
+                        <td th:text="${i.invoiceRef}"></td>
+                        <td th:text="${i.invoiceTotal}"></td>
+                        <td >
+                            <select th:id="'status_'+${i.id}" class="status_sm">
+                                <option th:id="'option_'+${i.id}" th:value="${i.status}" th:text="${i.status}" selected>
+                                </option>
+                                <option value="Confirmed" >CONFIRMED</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a href="">Order Details...</a>
+                        </td>
+                    </tr>
 
-            </div>
+                </th:block>
+                </tbody>
+
+            </table>
+
             <hr>
-            <div>
+            <h5>Confirmed</h5>
 
-            </div>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Order Ref</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="confirmed_table">
+                <th:block th:each="i : ${confirmedList}">
+                    <tr th:id="'confirmed_'+${i.id}">
+                        <td th:text="${i.invoiceRef}"></td>
+                        <td th:text="${i.invoiceTotal}"></td>
+                        <td >
+                            <select th:id="'something_'+${i.id}" class="something_cm">
+                                <option th:value="${i.status}" th:text="${i.status}" selected>
+                                </option>
+                                <option value="Completed" >COMPLETED</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a href="">Order Details...</a>
+                        </td>
+                    </tr>
+
+                </th:block>
+                </tbody>
+
+            </table>
+
+            <hr>
+            <h5>Completed</h5>
+
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Order Ref</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="completed_table">
+                <th:block th:each="i : ${completedList}">
+                    <tr th:id="'completed_'+${i.id}">
+                        <td th:text="${i.invoiceRef}"></td>
+                        <td th:text="${i.invoiceTotal}"></td>
+                        <td >
+                            <select th:id="'cpl_'+${i.id}" class="something_cpl">
+                                <option th:value="${i.status}" th:text="${i.status}" selected>
+                                </option>
+
+                            </select>
+                        </td>
+                        <td>
+                            <a href="">Order Details...</a>
+                        </td>
+                    </tr>
+
+                </th:block>
+                </tbody>
+
+            </table>
+
+
+
         </div>
-
-
     </div>
 
-    <div th:replace="home1::body_footer"></div>
+
+</div>
+
+<div th:replace="home1::body_footer"></div>
 
 </body>
 </html>

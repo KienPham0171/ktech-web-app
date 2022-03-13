@@ -29,6 +29,9 @@
     <script th:src="@{/js/checkoutJs.js}"></script>
     <script th:src="@{/js/productDetailsJs.js}"></script>
     <script th:src="@{/js/adminGeneral.js}"></script>
+    <script th:src="@{/js/adminNewProduct.js}"></script>
+    <script th:src="@{/js/adminProduct.js}"></script>
+    <script th:src="@{/js/adminOrders.js}"></script>
 </head>
 
 <body>
@@ -101,6 +104,7 @@
             <a id="_logout" class="nav-link " th:href="@{/logout}">
                 <span class="_userName" th:text="Logout"></span>
             </a>
+            <a th:href="@{/admin/dashboard}" th:if="${isAdmin == true}" class="btn btn-danger" >Dashboard</a>
         </div>
         <div th:unless="${userName}" class="_padding5px absolute_right">
             <a class="colorwhite _bigger" th:href="@{/login}">
@@ -272,9 +276,9 @@
     <!-- display with category -->
 
     <th:block th:each="cat : ${cats}">
-        <div th:id="${cat.name}" class = "category_item">
+        <div th:id="${cat.id}" class = "category_item">
             <div class="category_Name cat_loading">
-
+                <input th:id="cat_name_id+${cat.id}" type="hidden" th:value="${cat.name}" />
             </div>
             <hr>
 
@@ -287,18 +291,18 @@
 
     </th:block>
 
-    <div id="programming" class = "category_item">
-        <div class="category_Name cat_loading">
+<!--    <div id="programming" class = "category_item">-->
+<!--        <div class="category_Name cat_loading">-->
 
-        </div>
-        <hr>
+<!--        </div>-->
+<!--        <hr>-->
 
 
-        <div class="books_inside cat_loading">
-            <!-- <div class="_onebookItem"></div> -->
-        </div>
+<!--        <div class="books_inside cat_loading">-->
+<!--            &lt;!&ndash; <div class="_onebookItem"></div> &ndash;&gt;-->
+<!--        </div>-->
 
-    </div>
+<!--    </div>-->
     <!-- end div display category -->
 
 

@@ -3,8 +3,10 @@
 <head th:replace="home1::head(title ='Shopping Cart')">
 </head>
 <body>
+
+<section class="vh-100" style="position:relative" >
     <div th:replace="home1::body_header"></div>
-    <div class="container">
+    <div style="margin-top:150px" class="container">
 
 
 
@@ -15,7 +17,9 @@
 
 
     </div>
-    <div th:replace="home1::body_footer"></div>
+    <div style="position:absolute;bottom:0px" th:replace="home1::body_footer"></div>
+</section>
+
 
 </body>
 </html>

@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -70,6 +71,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendEmailVerification(CustomUserDetails user)
     {
+
         String link = siteUrl+"verify?code="+userRepository.findUserVerificationCodeById(user.getEmail());
         link+="&&userId="+user.getId();
         String subject = "Verification Email";
@@ -98,6 +100,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean enableUser(User user) {
         return userRepository.enableUser(user);
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
 

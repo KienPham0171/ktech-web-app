@@ -30,18 +30,19 @@ public class Search {
         System.out.println("search Term: " + name);
        return service.searchProductsByName(name);
     }
-    @RequestMapping(value = "/categories/products/{category}")
-    public List<Product> getProductsByCategory(@PathVariable("category") String category)
+    @RequestMapping(value = "/categories/products/{categoryId}")
+    public List<Product> getProductsByCategory(@PathVariable("categoryId") String id)
     {
-        System.out.println(category);
+        System.out.println(id);
         List<Product> products  ;
-        Optional<Category> cat =categoryService.getCategoryByName(category);
+        Optional<Category> cat =categoryService.getCategoryById(Long.parseLong(id));
         if(cat.isPresent()){
             Category st = cat.get();
             System.out.println(st.getId());
             System.out.println(st.getName());
             System.out.println("size"+ st.getProducts().size());
             products = st.getProducts();
+            System.err.println("size of id: " +id+" = "+products.size());
             return products;
             //return st.getProducts();
         }

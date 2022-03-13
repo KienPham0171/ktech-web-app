@@ -1,5 +1,6 @@
 package com.kein.ktech.domain;
 
+import com.kein.ktech.domain.dto.ProductDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,12 +16,12 @@ public class OptionProductDetails
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotNull(message = "not null")
+    @NotNull(message = "not null",groups = {ProductDTO.BaseInfo.class,ProductDTO.CustomValid.class})
     private String name;
     @Column(name = "price_option")
-    @NotNull(message = "not null")
-    @Max(value = 10000, message = "max 10.000$")
-    @Min(value = 1,message = "1$")
+    @NotNull(message = "not null",groups = {ProductDTO.BaseInfo.class,ProductDTO.CustomValid.class})
+    @Max(value = 10000, message = "max 10.000$",groups = {ProductDTO.BaseInfo.class,ProductDTO.CustomValid.class})
+    @Min(value = 1,message = "1$",groups = {ProductDTO.BaseInfo.class,ProductDTO.CustomValid.class})
     private double priceOption;
 
     @ManyToOne(fetch = FetchType.LAZY)

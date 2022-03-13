@@ -46,13 +46,16 @@
 
     <div class = 'inline_block display'>
         <div class= "tit">
-            <h5 style="text-align: center;">New Product</h5>
+            <h5 th:if="${product.id == null}" style="text-align: center;">New Product</h5>
+            <h5 th:if="${product.id != null}" style="text-align: center;">Update Product</h5>
 
         </div>
         <hr>
         <div>
-            <form action="#" th:action="@{/saveNewProduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+            <form id="formId" action="#"  th:action="@{/saveNewProduct}" th:object="${product}" method="post" enctype="multipart/form-data">
+
                 <h5>Basic Information</h5>
+                <input id="checkId" type="hidden" th:field="${product.id}" th:value="${product.id}" />
                 <p>
                     <label for="productName">Product Name: </label>
                     <input type="text" th:field="${product.productName}" id="productName">
@@ -76,8 +79,11 @@
                 </p>
                 <p>
                     <label for="image">Prime Image:</label>
-                    <input id="image" type="file" name="primeImage">
-                <p th:if="${#fields.hasErrors('image')}" th:errorclass="error" th:errors="${product.image}" />
+                    <input id="image" type="file" th:field="${product.file}">
+
+                    <img style="width:300px;height:400px" th:if="${product.id != null && product.getImage() != null}" th:src="${product.getImage()}"/>
+                    <img style="width:300px;height:400px" th:if="${listImg != null}" th:src="${listImg.get(0)}"/>
+                    <span th:if="${#fields.hasErrors('file') }" class="alert alert-danger" th:errors="${product.file}"  />
                 </p>
                 <p>
                     <label for="author">Author:</label>
@@ -91,6 +97,7 @@
 
                     </select>
                 </p>
+                <input th:if="${product.id != -1}" type="hidden" name="isUpdate" th:value="true" />
                 <h5>Detailed Information</h5>
                 <h6>Selling Options
                     <button class="btn btn-danger">
@@ -98,6 +105,11 @@
 <!--                        <input type="text" th:field="*{productDetails.optionProductDetails}">-->
 
                     </button>
+                    <p th:if="${#fields.hasErrors('productDetails.optionProductDetails[0].priceOption')
+                            ||#fields.hasErrors('productDetails.optionProductDetails[1].priceOption')
+                            || #fields.hasErrors('productDetails.optionProductDetails[2].priceOption')}"
+                            style="display: inline-block"
+                            class="alert alert-danger" >Prices are invalid (Min is $1 and Max is $10.000)</p>
                     <div th:each="opt : ${product.productDetails.optionProductDetails}" class="ingredient-row">
 
                         Option Name:
@@ -107,7 +119,7 @@
                         Option Price:
                         <input  type="text"
                                th:field="${product.productDetails.optionProductDetails[__${optStat.index}__].priceOption}"/>
-                        <p th:if="${#fields.hasErrors()}"  th:errors="${product.author}" />
+
 <!--                        <p class="alert alert-danger"-->
 <!--                           th:if="${#fields.hasErrors(product.productDetails.optionProductDetails[__${optStat.index}__].priceOption)}"-->
 <!--                           th:errors="Price option is wrong"></p>-->
@@ -115,23 +127,35 @@
 
                 </h6>
                 <h6>Small Images</h6>
+                <span th:if="${#fields.hasErrors('productDetails') }" class="alert alert-danger" th:errors="${product.productDetails}"  />
                 <div th:each="img : ${product.productDetails.smallImagesProducts}" class="ingredient-row">
                     Small Image:
                     <input type="file"
                            th:field="${product.productDetails.smallImagesProducts[__${imgStat.index}__].multipartFile}"/>
+                    <img style="width:90px;height:120px" th:if="${product.id != null && img.image !=null}" th:src="${img.image}"/>
+                    <img style="width:100px;height:120px" th:if="${listImg != null}" th:src="${listImg.get(imgStat.index+1)}"/>
+
 
                 </div>
 
-                <input type="submit" value="Save New Product" class="btn btn-danger" />
+                <input th:if="${product.id == -1}" type="submit" value="Save New Product" class="btn btn-danger" />
+                <input th:if="${product.id != -1}"  type="submit" value="Update Product" class="btn btn-danger" />
+
+                <a href="http://localhost:8080/admin/products"  type="button"  class="btn btn-primary">Cancel</a>
+
             </form>
 
+            <div style="width: 100rem; margin-left: -36%; margin-top:20px">
+                <div th:replace="home1::body_footer"></div>
+            </div>
 
         </div>
+
     </div>
 
 
 </div>
 
-<div th:replace="home1::body_footer"></div>
+
 </body>
 </html>

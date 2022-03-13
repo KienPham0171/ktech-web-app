@@ -1,10 +1,9 @@
 package com.kein.ktech.controller;
 
+import com.kein.ktech.constant.InvoiceStatus;
+import com.kein.ktech.domain.Invoice;
 import com.kein.ktech.domain.Product;
-import com.kein.ktech.service.CategoryService;
-import com.kein.ktech.service.ProductService;
-import com.kein.ktech.service.StatsService;
-import com.kein.ktech.service.UserService;
+import com.kein.ktech.service.*;
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,14 +21,16 @@ public class AdminController {
     UserService userService;
     CategoryService catService;
     StatsService statsService;
+    InvoiceService invoiceService;
 
     @Autowired
     public AdminController(ProductService productService, UserService userService,
-                           CategoryService catService,StatsService statsService) {
+                           CategoryService catService,StatsService statsService,InvoiceService inv) {
         this.productService = productService;
         this.userService = userService;
         this.catService = catService;
         this.statsService = statsService;
+        this.invoiceService = inv;
     }
 
     @GetMapping("/dashboard")
@@ -65,6 +66,12 @@ public class AdminController {
     @GetMapping("/orders")
     public String orders(Model model)
     {
+        List<Invoice> notConfirmedList = invoiceService.getInvoicesByStatus(InvoiceStatus.NOT_CONFIRMED);
+        List<Invoice> confirmedList = invoiceService.getInvoicesByStatus(InvoiceStatus.CONFIRMED);
+        List<Invoice> completedList = invoiceService.getInvoicesByStatus(InvoiceStatus.COMPLETED);
+        model.addAttribute("notConfirmedList",notConfirmedList);
+        model.addAttribute("confirmedList",confirmedList);
+        model.addAttribute("completedList",completedList);
         return "admin/orders";
     }
     @GetMapping("/feedbacks")

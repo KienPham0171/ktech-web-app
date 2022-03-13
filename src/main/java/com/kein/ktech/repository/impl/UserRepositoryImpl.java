@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -46,6 +47,13 @@ public class UserRepositoryImpl implements UserRepository {
         User user = result.getSingleResult();
         return user.getVerificationCode();
 
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        String q = "select u from User u where u.email = ?1";
+        TypedQuery<User> result = em.createQuery(q,User.class).setParameter(1,email);
+        return result.getResultList().stream().findFirst();
     }
 
     @Override

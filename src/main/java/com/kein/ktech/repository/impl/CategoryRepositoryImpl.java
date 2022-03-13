@@ -24,7 +24,10 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Optional<Category> getCategoryById(long id) {
-        return Optional.empty();
+
+        String query = "Select c from Category c where c.id = ?1";
+        TypedQuery<Category> result =entityManager.createQuery(query,Category.class).setParameter(1,id);
+        return Optional.ofNullable(result.getSingleResult());
     }
 
     @Override

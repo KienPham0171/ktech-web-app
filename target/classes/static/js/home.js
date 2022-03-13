@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    var templateUrl = "http://localhost:8080";
+
     let timeout= null;
     $('#_searchinput').on('change keyup paste',event => {
         resultSearch = document.getElementById("_result_Search");
@@ -11,7 +13,7 @@ $(document).ready(function() {
         clearTimeout(timeout);
         timeout =  setTimeout(()=>{
             let key = $('#_searchinput').val();
-            var api = 'http://localhost:8080/api/v1/products/' + key;
+            var api = templateUrl+ '/api/v1/products/' + key;
             axios.get(api)
                 .then((response) =>{
                     $('.img').removeClass('loading');
@@ -61,37 +63,83 @@ $(document).ready(function() {
 
         cats.forEach(
             cat=>{
-                var api = 'http://localhost:8080/api/v1/categories/products/' + cat;
+                var api = templateUrl + '/api/v1/categories/products/' + cat;
                 console.log(api)
             }
         )
-        var cat = $('.category_item').attr('id');
-        var api = 'http://localhost:8080/api/v1/categories/products/' + cat;
+        // var cat = $('.category_item').attr('id');
+        // var api = templateUrl + '/api/v1/categories/products/' + cat;
         if(window.pageYOffset >1000){
-            if(fetchData)
-            {
-                fetchData = false;
-                axios.get(api)
-                    .then(response => {
-                        $(".category_Name").html(`<h3>${cat.toUpperCase()}</h3>`)
-                        $('.category_Name').removeClass('cat_loading');
-                        $('.books_inside').removeClass('cat_loading');
-                        return response.data;
-                    })
-                    .then(data => {
-                        html = '';
-                        data.map(book => {
-                            var link = `productDetails/${book.id}`;
-                            html+=`
+            cats.forEach(
+                cat=>{
+                    var api = templateUrl + '/api/v1/categories/products/' + cat;
+                    if(fetchData)
+                    {
+
+                        axios.get(api)
+                            .then(response => {
+                                var id = '#'+cat;
+                                var name = $(`#cat_name_id${cat}`).val();
+                                var html = `
+                                     <div class="category_Name">
+                                        <h3>${name.toUpperCase()}
+                                            <a href="#">All Items</a>
+                                        </h3>
+                                        
+                                     </div>
+                                     <hr>
+
+
+                                     <div id="books_inside_id${cat}" class="books_inside ">
+                <!-- <div class="_onebookItem"></div> -->
+                                     </div>
+                                `
+                                $(id).html(html);
+                                $(id).removeClass('cat_loading');
+                                $(id).removeClass('cat_loading');
+                                return response.data;
+                            })
+                            .then(data => {
+                                html = '';
+                                data.map(book => {
+                                    var link = `productDetails/${book.id}`;
+                                    html+=`
                  <a href='${link}'>   
                     <div class="_onebookItem">
                         <img style='width:100%;height:100%;' src='${book.image}' />
                     </div>
                  </a>`
-                        })
-                        $('.books_inside').html(html);
-                    })
-            }
+                                })
+                                $(`#books_inside_id${cat}`).html(html);
+                            })
+                    }
+                }
+            )
+            fetchData = false;
+            // if(fetchData)
+            // {
+            //     fetchData = false;
+            //     axios.get(api)
+            //         .then(response => {
+            //             $(".category_Name").html(`<h3>${cat.toUpperCase()}</h3>`)
+            //             $('.category_Name').removeClass('cat_loading');
+            //             $('.books_inside').removeClass('cat_loading');
+            //             return response.data;
+            //         })
+            //         .then(data => {
+            //             html = '';
+            //             data.map(book => {
+            //                 var link = `productDetails/${book.id}`;
+            //                 html+=`
+            //      <a href='${link}'>
+            //         <div class="_onebookItem">
+            //             <img style='width:100%;height:100%;' src='${book.image}' />
+            //         </div>
+            //      </a>`
+            //             })
+            //             $('.books_inside').html(html);
+            //         })
+            // }
         }
 
     }
