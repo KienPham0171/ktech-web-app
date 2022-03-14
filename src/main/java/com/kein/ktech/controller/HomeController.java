@@ -1,9 +1,11 @@
 package com.kein.ktech.controller;
 
+import com.kein.ktech.domain.Category;
 import com.kein.ktech.domain.Role;
 import com.kein.ktech.domain.User;
 import com.kein.ktech.security.CustomOauth2User;
 import com.kein.ktech.security.CustomUserDetails;
+import com.kein.ktech.service.CategoryService;
 import com.kein.ktech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,8 @@ import java.util.List;
 public class HomeController {
     @Autowired
     UserService userService;
+    @Autowired
+    CategoryService catService;
 
     @ModelAttribute(name = "userName")
     public String userName() {
@@ -55,7 +59,17 @@ public class HomeController {
         return false;
     }
 
+    @ModelAttribute(name="cats")
+    public List<Category> getCats(){
+        return catService.getCategories();
+    }
 
+    @GetMapping("/")
+    public String welcome(Model model)
+    {
+        model.addAttribute("cats",catService.getCategories());
+        return "home1";
+    }
     @GetMapping("/home")
     public String home(Authentication authentication, Model model)
     {

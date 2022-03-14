@@ -41,6 +41,7 @@ public class Product {
     private String image;
     @NotBlank(message = "Can not be null!",groups = BaseInfo.class)
     private String author;
+    private String status;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id")

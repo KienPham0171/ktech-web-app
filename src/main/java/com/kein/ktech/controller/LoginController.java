@@ -29,12 +29,12 @@ public class LoginController {
     @Autowired
     CategoryService catService;
 
-    @GetMapping("/")
-    public String welcome(Model model)
-    {
-        model.addAttribute("cats",catService.getCategories());
-        return "home1";
-    }
+//    @GetMapping("/")
+//    public String welcome(Model model)
+//    {
+//        model.addAttribute("cats",catService.getCategories());
+//        return "home1";
+//    }
     @GetMapping("/login")
     public String login()
     {

@@ -6,6 +6,7 @@ $(document).ready(function() {
     st[0].classList.add("active");
 
     var userId = $('#_priUserId').val().toString();
+    console.log("userId: ",userId);
     var productId = $('#_productId').val().toString();
 
     var arr = [];
@@ -48,6 +49,7 @@ $(document).ready(function() {
 
 
     $("#addCartLine").click(function(){
+        console.log("userId: ",userId);
         var api = `{
             "userId": "${userId}",
             "productId": "${productId}",

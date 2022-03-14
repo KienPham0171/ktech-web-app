@@ -109,16 +109,21 @@
     <h3>Book Reviews</h3>
     <p></p>
     <div style="padding:50px;max-height: 1500px;border:1px solid;border-radius: 5px" class='book_reviews'>
+        <div th:if="${objUser != null}">
+            <h5>Typing your opinion:</h5>
+            <p>
+                <i class="far fa-user"></i> <label for="comment" th:text="${objUser.fullName}"></label>
 
-        <h5>Typing your opinion:</h5>
-        <p>
-            <i class="far fa-user"></i> <label for="comment" th:text="${objUser.fullName}"></label>
+                <textarea style="width: 100%" name="content" id="comment" cols="30" rows="3"></textarea>
+                <input id="btn_send_comment" type="button" class="btn btn-success" value="Send Comment">
+                <input type="hidden" id="userId" th:value="${objUser.id}">
+                <input type="hidden" id="productId" th:value="${product.id}">
+            </p>
+        </div>
+        <div th:if="${objUser == null}">
+            <h5>Please sign-in to comment !!</h5>
+        </div>
 
-            <textarea style="width: 100%" name="content" id="comment" cols="30" rows="3"></textarea>
-            <input id="btn_send_comment" type="button" class="btn btn-success" value="Send Comment">
-            <input type="hidden" id="userId" th:value="${objUser.id}">
-            <input type="hidden" id="productId" th:value="${product.id}">
-        </p>
         <div id="cmt_div" th:if="${product.getComments() !=null }">
 
 
@@ -133,12 +138,12 @@
                         <span th:text="${comment.content}"></span>
                         <p th:id="${comment.id}" class="p_absolute"> <span style="color:#0082ca">Reply</span>-
                             <span th:text="${comment.createdDate}"></span>
-                            <span style="color: red;" th:if="${objUser.id ==3}">Delete</span>
+                            <span style="color: red;" th:if="${isAdmin == true}">Delete</span>
                         </p>
 
                     </div>
                     <div style="width: 79%;margin-left: 21%" th:if="${comment.getListCommentsReply()!= null}">
-                        <div style="display: none">
+                        <div th:if="${objUser != null}" style="display: none">
                             <div style="width:100%;position:relative">
                                 <div class="dt_comments cmt_center" style="width: 20%;">
                                     <i style="color:darkslateblue;font-size: 30px" class="far fa-user"></i> <br>
@@ -160,7 +165,7 @@
                                 </div>
                                 <div   class="dt_comments cmt_content" style="width: 79%;position:relative">
                                     <span th:text="${rcmt.content}"></span>
-                                    <span class="pdrmc" th:if="${objUser.id ==3}">Delete</span>
+                                    <span class="pdrmc" th:if="${isAdmin == true}">Delete</span>
                                 </div>
                             </div>
 
