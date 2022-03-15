@@ -82,8 +82,8 @@ $(document).ready(function() {
                                 var name = $(`#cat_name_id${cat}`).val();
                                 var html = `
                                      <div class="category_Name">
-                                        <h3>${name.toUpperCase()}
-                                            <a href="#">All Items</a>
+                                        <h3 class="_title">${name.toUpperCase()}
+                                            <a class="_right_title" href="#">All Items...</a>
                                         </h3>
                                         
                                      </div>
@@ -101,15 +101,18 @@ $(document).ready(function() {
                             })
                             .then(data => {
                                 html = '';
-                                data.map(book => {
-                                    var link = `productDetails/${book.id}`;
-                                    html+=`
+                                if(data.length > 0) {
+                                    data.map(book => {
+                                        var link = `productDetails/${book.id}`;
+                                        html += `
                  <a href='${link}'>   
                     <div class="_onebookItem">
-                        <img style='width:100%;height:100%;' src='${book.image}' />
+                        <img class="_hover_scale" style='width:100%;height:100%;' src='${book.image}' />
                     </div>
                  </a>`
-                                })
+                                    })
+                                }
+
                                 $(`#books_inside_id${cat}`).html(html);
                             })
                     }

@@ -18,15 +18,18 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String content;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
     @OneToMany(mappedBy = "fatherComment")
     @JsonIgnore
     private List<Comment> listCommentsReply;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "comment_id")
     private Comment fatherComment;
@@ -37,5 +40,7 @@ public class Comment {
     private long userId;
     @Transient
     private long productId;
+    @Transient
+    private String fullName;
 
 }

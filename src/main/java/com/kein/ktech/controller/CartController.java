@@ -1,5 +1,6 @@
 package com.kein.ktech.controller;
 
+import com.kein.ktech.domain.Address;
 import com.kein.ktech.domain.Cart;
 import com.kein.ktech.domain.CartLine;
 import com.kein.ktech.domain.User;
@@ -57,8 +58,12 @@ public class CartController {
             cartService.createNewCart(cart);
         };
         double invoiceTotal= cart.getCartLines().stream().mapToDouble(line -> line.getPrice() * line.getQuantity()).sum();
+        List<Address> addresses = user.getAddresses();
         model.addAttribute("invoiceTotal",invoiceTotal);
         model.addAttribute("user",user);
+        if(addresses.size()>0){
+        model.addAttribute("addresses",addresses);}
+
 
         return "checkout";
     }

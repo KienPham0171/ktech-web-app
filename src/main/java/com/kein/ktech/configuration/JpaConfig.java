@@ -28,13 +28,13 @@ public class JpaConfig {
 //        return d;
         DriverManagerDataSource d = new DriverManagerDataSource();
         d.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        d.setUrl("jdbc:mysql://localhost:3306/learnJpa");
-        d.setUsername("root");
-        d.setPassword("Kien17101998");
+//        d.setUrl("jdbc:mysql://localhost:3306/learnJpa");
+//        d.setUsername("root");
+//        d.setPassword("Kien17101998");
 //
-//        d.setUrl("jdbc:mysql://sql6.freesqldatabase.com:3306/sql6455789");
-//        d.setUsername("sql6455789");
-//        d.setPassword("tTlWf9Xi3N");
+        d.setUrl("jdbc:mysql://sql6.freesqldatabase.com:3306/sql6479221");
+        d.setUsername("sql6479221");
+        d.setPassword("d3Gq9pMvHN");
         return d;
     }
     @Bean

@@ -50,7 +50,7 @@ public class AdminController {
         List<Product> products = productService.getProductsByPageAndSize(page,size);
         System.out.println(products.size());
         model.addAttribute("products",products);
-        model.addAttribute("pages",Math.ceil(productService.countProducts()/size));
+        model.addAttribute("pages",Math.ceil(productService.countProducts()/size)+1);
         return "admin/products";
     }
     @GetMapping("/users")

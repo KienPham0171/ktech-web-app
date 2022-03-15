@@ -1,5 +1,6 @@
 package com.kein.ktech.repository.impl;
 
+import com.kein.ktech.domain.Category;
 import com.kein.ktech.domain.Product;
 import com.kein.ktech.repository.ProductRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -60,6 +61,38 @@ public class ProductRepositoryImpl implements ProductRepository {
         TypedQuery<Product> q = entityManager.createQuery(query,Product.class)
                 .setMaxResults(size).setFirstResult((page -1)*size);
         return q.getResultList();
+    }
+
+    @Override
+    public List<Product> getProductsByStatusAndSize(String status, int size) {
+        //if size = -1 get all products
+        String q = "select p from Product p where p.status = ?1";
+        TypedQuery<Product> result;
+        if(size !=-1){
+            result = entityManager.createQuery(q,Product.class)
+                    .setParameter(1,status).setMaxResults(size).setFirstResult(0);
+
+        }else{
+            result = entityManager.createQuery(q,Product.class).setParameter(1,status);
+        }
+        return result.getResultList();
+    }
+
+    @Override
+    public List<Product> getRelatedProductsByCategory(Category category) {
+        String q = "select p from Product p where p.categoryId = ?1";
+        TypedQuery<Product> result = entityManager.createQuery(q,Product.class)
+                .setParameter(1,category).setFirstResult(0).setMaxResults(8);
+        return result.getResultList();
+    }
+
+    @Override
+    public List<Product> getProductsBySizeAndDifferentCategory(int size,Category category,long id) {
+        String q = "select p from Product p where p.categoryId <> ?1 and p.id <>?2";
+        TypedQuery<Product> result = entityManager.createQuery(q,Product.class)
+                .setParameter(1,category).setParameter(2,id)
+                .setFirstResult(0).setMaxResults(size);
+        return result.getResultList();
     }
 
     @Override

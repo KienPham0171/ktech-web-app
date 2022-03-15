@@ -342,3 +342,14 @@ p.cart_delete:hover{
 .cmt_center{
     text-align: center;
 }
+._title{
+    position: relative;
+}
+._right_title{
+    position: absolute;
+    right: 10px;
+    text-decoration: none;
+}
+._right_title:hover{
+    text-decoration:none;
+}

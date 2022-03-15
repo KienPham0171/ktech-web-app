@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -21,6 +22,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URLEncoder;
@@ -46,8 +48,28 @@ public class PaymentController {
     }
 
     @PostMapping("/create-payment")
-    public RedirectView createPayment(Payment paymentInfo, HttpServletRequest req) throws ServletException, IOException, NoSuchAlgorithmException, InvalidKeyException {
-
+    public Object createPayment(@Valid Payment paymentInfo,BindingResult result,Model model,
+                                      HttpServletRequest req) throws ServletException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+            if(result.hasErrors()){
+            User user = getUser(SecurityContextHolder.getContext().getAuthentication());
+            Cart cart = null;
+            Optional<Cart> opt =cartService.getCartIsNotCheckOutById(user.getId());
+            if(opt.isPresent()) {
+                cart = opt.get();
+            } else {
+                cart = new Cart();
+                cart.setUserId(user);
+                cartService.createNewCart(cart);
+            };
+            double invoiceTotal= cart.getCartLines().stream().mapToDouble(line -> line.getPrice() * line.getQuantity()).sum();
+            List<Address> addresses = user.getAddresses();
+            model.addAttribute("invoiceTotal",invoiceTotal);
+            model.addAttribute("user",user);
+            if(addresses.size()>0){
+                    model.addAttribute("addresses",addresses);}
+            if(result.hasFieldErrors("address")) model.addAttribute("addressError","Address not valid!");
+            return "checkout";
+        }
             String vnp_Version = "2.1.0";
             String vnp_Command = "pay";
             String vnp_OrderInfo = "test";
@@ -163,41 +185,64 @@ public class PaymentController {
         return "paymentResult";
     }
     @PostMapping("/create-order")
-    public String createOrder(Payment paymentInfo,Model model){
-        Invoice invoice = new Invoice();
-        Calendar cld = Calendar.getInstance();
-        Date date =  cld.getTime();
-        BigInteger b = new BigInteger(64, new Random());
+    public String createOrder(@Valid Payment paymentInfo, BindingResult result, Model model){
+        if(result.hasErrors()){
+            User user = getUser(SecurityContextHolder.getContext().getAuthentication());
+            Cart cart = null;
+            Optional<Cart> opt =cartService.getCartIsNotCheckOutById(user.getId());
+            if(opt.isPresent()) {
+                cart = opt.get();
+            } else {
+                cart = new Cart();
+                cart.setUserId(user);
+                cartService.createNewCart(cart);
+            };
+            double invoiceTotal= cart.getCartLines().stream().mapToDouble(line -> line.getPrice() * line.getQuantity()).sum();
+            List<Address> addresses = user.getAddresses();
+            model.addAttribute("invoiceTotal",invoiceTotal);
+            model.addAttribute("user",user);
+            if(addresses.size()>0){
+                model.addAttribute("addresses",addresses);}
+            if(result.hasFieldErrors("address")) model.addAttribute("addressError","Address not valid!");
+            return "checkout";
+        }else{
+            Invoice invoice = new Invoice();
+            Calendar cld = Calendar.getInstance();
+            Date date =  cld.getTime();
+            BigInteger b = new BigInteger(64, new Random());
 
-        System.out.println(b);
-        invoice.setInvoiceRef("ORDER"+b);
-        invoice.setType("ORDER");
-        invoice.setCreatedDate(date);
-        invoice.setInvoiceTotal(paymentInfo.getInvoiceTotal()*23000);
-        invoice.setStatus(InvoiceStatus.NOT_CONFIRMED);
+            System.out.println(b);
+            invoice.setInvoiceRef("ORDER"+b);
+            invoice.setType("ORDER");
+            invoice.setCreatedDate(date);
+            invoice.setInvoiceTotal(paymentInfo.getInvoiceTotal()*23000);
+            invoice.setStatus(InvoiceStatus.NOT_CONFIRMED);
 
-        invoice.setAddress(paymentInfo.getAddress());
-        User user = getUser(SecurityContextHolder.getContext().getAuthentication());
-        invoice.setUser(user);
-        Optional<Cart> c = cartService.getCartIsNotCheckOutById(user.getId());
-        if(c.isPresent()){
-            Cart cart = c.get();
-            invoice.setCart(cart);
-            cart.setCheckOut(true);
-            cartService.updateCart(cart);
+            invoice.setAddress(paymentInfo.getAddress());
+            User user = getUser(SecurityContextHolder.getContext().getAuthentication());
+            invoice.setUser(user);
+            Optional<Cart> c = cartService.getCartIsNotCheckOutById(user.getId());
+            if(c.isPresent()){
+                Cart cart = c.get();
+                invoice.setCart(cart);
+                cart.setCheckOut(true);
+                cartService.updateCart(cart);
+            }
+            else{
+                Cart cart = new Cart();
+                invoice.setCart(cart);
+            }
+            invoiceService.saveInvoice(invoice);
+
+
+            model.addAttribute("result","Successfully!");
+            model.addAttribute("invoice",invoice);
+            return "paymentResult";
         }
-        else{
-            Cart cart = new Cart();
-            invoice.setCart(cart);
-        }
+
 
         //save invoice
-        invoiceService.saveInvoice(invoice);
 
-
-        model.addAttribute("result","Successfully!");
-        model.addAttribute("invoice",invoice);
-        return "paymentResult";
     }
 
     public static String hmacSHA512(final String key, final String data) {

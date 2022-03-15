@@ -8,6 +8,7 @@
 
         <h3>Verify your cart and check-out</h3>
 
+        <p th:if="${addressError != null}" th:text="${addressError}" class="alert alert-danger"></p>
         <p>invoice total: <span th:text="${invoiceTotal}"></span></p>
         <p>user name: <span th:text="${user.fullName}"></span></p>
         <label class="" for="paymentMethod">Payment Method:</label>
@@ -15,15 +16,32 @@
             <option checked="checked" value="online">Online Check-out (VNPAY)</option>
             <option value="order">Order</option>
         </select>
-        <p>Choose your address:</p>
+
+        <p>Choose your address:
+
+            <button  class="btn btn-primary"><i class="fa-solid fa-plus"></i> Address</button>
+            <form th:action="@{/addresses}" method="post">
+                Typing your address:
+                <input id="newAdd" name="newAdd" type="text" />
+                <button type="submit" class="btn btn-danger">ADD</button>
+            </form>
+        </p>
 
         <form id="paymentForm" th:action="@{/create-payment}" method="post">
 
-            <th:block th:each="address : ${user.getAddresses()}">
-                <input th:checked="checked" th:id="${address.id}" type="radio" name="address" th:value="${address.address}">
-                <label th:for="${address.id}" th:text="${address.address}"></label>
-                <br>
-            </th:block>
+<!--            <th:block th:each="address : ${addresses}">-->
+<!--                <input th:checked="checked" th:id="${address.id}" type="radio" name="address" th:value="${address.address}">-->
+<!--                <label th:for="${address.id}" th:text="${address.address}"></label>-->
+<!--                <br>-->
+<!--            </th:block>-->
+
+            <select th:if="${addresses != null}" id="address" name="address">
+
+                <th:block   th:each="address : ${addresses}">
+                    <option th:value="${address.address}" th:text="${address.address}" th:checked="checked"></option>
+                </th:block>
+            </select>
+            <p> </p>
             <input type="hidden" name="invoiceTotal" th:value="${invoiceTotal}">
             <input type="hidden" name = "userName" th:value="${user.fullName}">
             <input  class="btn btn-danger" type="submit" value="Verify and checkout">

@@ -43,8 +43,14 @@
     position: relative;
 }
 #related_book{
-    height: 300px;
-    background-color: aqua;
+
+}
+._hover_scale{
+    transition: transform .2s
+}
+._hover_scale:hover{
+    transform: scale(1.1);
+    border: 1px solid silver;
 }
 .optionSale{
     /* border: 1px solid; */

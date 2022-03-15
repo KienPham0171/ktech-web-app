@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "Product_details")
+@Table(name = "product_details")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

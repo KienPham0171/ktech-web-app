@@ -1,5 +1,6 @@
 package com.kein.ktech.service.impl;
 
+import com.kein.ktech.domain.Category;
 import com.kein.ktech.domain.Product;
 import com.kein.ktech.repository.ProductRepository;
 import com.kein.ktech.service.ProductService;
@@ -50,6 +51,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product updateProduct(Product product) {
         return this.repository.updateProduct(product);
+    }
+
+    @Override
+    public List<Product> getProductsByStatusAndSize(String status, int size) {
+        return this.repository.getProductsByStatusAndSize(status,size);
+    }
+
+    @Override
+    public List<Product> getRelatedProductsByCategory(Category category) {
+        return this.repository.getRelatedProductsByCategory(category);
+    }
+
+    @Override
+    public List<Product> getProductsBySizeAndDifferentCategory(int size,Category category,long id) {
+        return this.repository.getProductsBySizeAndDifferentCategory(size,category,id);
     }
 
     @Override

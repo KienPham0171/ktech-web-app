@@ -43,7 +43,9 @@ public class CommentApis {
         Calendar cld = Calendar.getInstance();
         Date date =  cld.getTime();
         comment.setCreatedDate(date);
-        return commentService.createComment(comment);
+        Comment cmt =  commentService.createComment(comment);
+        cmt.setFullName(cmt.getUser().getFullName());
+        return cmt;
 
     }
 }

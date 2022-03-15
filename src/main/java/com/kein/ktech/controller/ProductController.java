@@ -164,10 +164,20 @@ public class ProductController {
         Optional<Product> product = productService.findProductById(id);
         if(product.isPresent())
         {
-            System.err.println(product.get().getProductName());
-            model.addAttribute("product",product.get());
+            Product p = product.get();
+            model.addAttribute("product",p);
+
+            List<Product> list = productService.getRelatedProductsByCategory(p.getCategoryId());
+            List<Product> relatedProducts = new ArrayList<>(list);
+            if(list.size()<8){
+                List<Product> secondList =
+                        productService.getProductsBySizeAndDifferentCategory(8-list.size(),p.getCategoryId(),p.getId());
+                relatedProducts.addAll(secondList);
+            }
+            model.addAttribute("relatedProducts",relatedProducts);
 
         }
+
         return "productDetails";
     }
 }

@@ -60,6 +60,7 @@ $(document).ready(function() {
 
         axios.post('/api/cartline', api).then(response=>{
             console.log(response);
+            $('.toast').toast('show');
         })
 
     });
@@ -80,7 +81,7 @@ $(document).ready(function() {
             html = `
                 <div class="dt_comments cmt_center" style="width: 20%;">
                     <i style="color:darkslateblue;font-size: 30px" class="far fa-user"></i> <br>
-                    <span style="color:cadetblue">${response.data.user.fullName}</span>
+                    <span style="color:cadetblue">${response.data.fullName}</span>
                 </div>
                 <div  class="dt_comments cmt_content" style="width: 79%">
                     <span >${response.data.content}</span>
@@ -91,7 +92,8 @@ $(document).ready(function() {
 
                 </div>
            `;
-            $("#cmt_div").append(html);
+            $("#cmt_div").prepend(html);
+            $('#comment').val("");
         });
 
     });

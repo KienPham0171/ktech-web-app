@@ -1,5 +1,6 @@
 package com.kein.ktech.service;
 
+import com.kein.ktech.domain.Category;
 import com.kein.ktech.domain.Product;
 
 import java.util.List;
@@ -13,6 +14,9 @@ public interface ProductService {
     void saveProduct(Product product);
     long countProducts();
     Product updateProduct(Product product);
+    List<Product> getProductsByStatusAndSize(String status,int size);
+    List<Product> getRelatedProductsByCategory(Category category);
+    List<Product> getProductsBySizeAndDifferentCategory(int size,Category category,long id);
 
     void deleteProductById(long id);
 }

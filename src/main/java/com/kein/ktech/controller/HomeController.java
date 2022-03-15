@@ -1,11 +1,13 @@
 package com.kein.ktech.controller;
 
 import com.kein.ktech.domain.Category;
+import com.kein.ktech.domain.Product;
 import com.kein.ktech.domain.Role;
 import com.kein.ktech.domain.User;
 import com.kein.ktech.security.CustomOauth2User;
 import com.kein.ktech.security.CustomUserDetails;
 import com.kein.ktech.service.CategoryService;
+import com.kein.ktech.service.ProductService;
 import com.kein.ktech.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -29,6 +31,8 @@ public class HomeController {
     UserService userService;
     @Autowired
     CategoryService catService;
+    @Autowired
+    ProductService productService;
 
     @ModelAttribute(name = "userName")
     public String userName() {
@@ -68,11 +72,16 @@ public class HomeController {
     public String welcome(Model model)
     {
         model.addAttribute("cats",catService.getCategories());
+        List<Product> listNew = productService.getProductsByStatusAndSize("isNew",5);
+        model.addAttribute("listNew",listNew);
         return "home1";
     }
     @GetMapping("/home")
     public String home(Authentication authentication, Model model)
     {
+        model.addAttribute("cats",catService.getCategories());
+        List<Product> listNew = productService.getProductsByStatusAndSize("isNew",5);
+        model.addAttribute("listNew",listNew);
         return "home1";
     }
     public String getPrincipal(Authentication authentication)
@@ -115,10 +124,6 @@ public class HomeController {
                 CustomUserDetails user = (CustomUserDetails) principal;
                 return userService.getUserByEmail(user.getEmail());
             }
-
-//            CustomUserDetails user = (CustomUserDetails) principal;
-//            System.out.println("log by regular user: "+ user.getUsername());
-//            userName = user.getUsername();
         }
         return null;
     }
