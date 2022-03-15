@@ -1,7 +1,7 @@
 $(document).ready(function (){
 
-    const apiTemplate = "http://localhost:8080/api/v1/admin/orders/"
-
+    //const apiTemplate = "http://localhost:8080/api/v1/admin/orders/"
+    const apiTemplate ="https://ktechapp.herokuapp.com/api/v1/admin/orders/";
 
 
     var notConfBtns = [];

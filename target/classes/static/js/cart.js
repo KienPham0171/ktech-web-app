@@ -1,6 +1,7 @@
 $(document).ready(function() {
     //address reduce;
-    var apiTemplate = "http://localhost:8080/api/v1/cartLines/";
+    //var apiTemplate = "http://localhost:8080/api/v1/cartLines/";
+    var apiTemplate ="https://ktechapp.herokuapp.com/api/v1/cartLines/"
     var completed = true;
     var arrReduce = [];
     $(".reduce.cart_30").each(function() { arrReduce.push($(this)) });

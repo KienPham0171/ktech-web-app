@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-    var templateUrl = "http://localhost:8080";
+    //var templateUrl = "http://localhost:8080";
+    var templateUrl = "https://ktechapp.herokuapp.com"
 
     let timeout= null;
     $('#_searchinput').on('change keyup paste',event => {

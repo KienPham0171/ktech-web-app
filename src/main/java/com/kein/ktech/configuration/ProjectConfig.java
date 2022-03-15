@@ -36,7 +36,8 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
     @Bean(name = "siteUrl")
     public String siteUrl()
     {
-        return "http://localhost:8080/";
+        return "https://ktechapp.herokuapp.com/";
+        //return "http://localhost:8080/";
     }
 
 

@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-    var apiTemplate = "http://localhost:8080/api/v1/admin/products/";
+    //var apiTemplate = "http://localhost:8080/api/v1/admin/products/";
+    var apiTemplate = "https://ktechapp.herokuapp.com/api/v1/admin/products"
 
     var callBtns = [];
     $(".admin_products_delete").each(function(){callBtns.push($(this)) });

@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
-    var domain = "http://localhost:8080/";
+    //var domain = "http://localhost:8080/";
+    var domain = "https://ktechapp.herokuapp.com/"
 
     st =document.getElementsByClassName("optionSale");
     st[0].classList.add("active");
